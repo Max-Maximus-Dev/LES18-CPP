@@ -3,6 +3,7 @@
 #include <string>
 #include <msclr/marshal_cppstd.h>
 #include "User.h"
+#include "Wrapper.h"
 #include "UserExceptionr.h"
 
 namespace les18 {
@@ -182,20 +183,16 @@ namespace les18 {
 		textBox1->Clear();
 		textBox2->Clear();*/
 		try {
-			NativeUser user = new NativeUser(
-				marshal_as<std::string>(richTextBox1->Text),
-				marshal_as<std::string>(richTextBox2->Text),
-				System::Convert::ToInt32(richTextBox3->Text)
-			);
 			std::string filename = "userData.txt";
-			WrappedUser wrappedUser = new WrappedUser();
-			if (user->getName() == "" || user->getLastName() == "") {
+			String^ name = richTextBox1->Text;
+			String^ lastName = richTextBox2->Text;
+			int age = Convert::ToInt32(richTextBox3->Text);
+			WrappedUser wrappedUser;
+			if (name == "" || lastName == "") {
 				MessageBox::Show("Lines is Empty!");
 				return;
 			}
-			wrappedUser->saveToFile(filename, user->getName(), user->getLastName(), user->getAge());
-			delete user;
-			delete wrappedUser;
+			wrappedUser.saveToFile(filename, marshal_as<std::string>(name), marshal_as<std::string>(lastName), age);
 			richTextBox1->Clear();
 			richTextBox2->Clear();
 			richTextBox3->Clear();
