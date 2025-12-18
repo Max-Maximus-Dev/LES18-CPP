@@ -189,7 +189,11 @@ namespace les18 {
 			int age = Convert::ToInt32(richTextBox3->Text);
 			WrappedUser wrappedUser;
 			if (name == "" || lastName == "") {
-				MessageBox::Show("Lines is Empty!");
+				throw gcnew UserException("Name or LastName is empty!");
+				return;
+			}
+			if (age < 0 || age > 150) {
+				throw gcnew UserException("Age is incorrect!");
 				return;
 			}
 			wrappedUser.saveToFile(filename, marshal_as<std::string>(name), marshal_as<std::string>(lastName), age);
